@@ -1,0 +1,58 @@
+01.what are signals?
+-- signals are utilities that allow us to asscoicate events with actions
+--signas have three import parts
+  1. Sender -->who will send signals
+  2.signasl -signal
+  3.Reciver --Who will recive Signal
+
+Reciver Function :
+    -- This function takes a sender argument, along with wildcard arguments(**keargs);
+       all signals handlers must takethse argumnets, A reciver can be any python function or methods
+
+       def reciver_fun(sender, request, user, **kwargs):
+            pass
+Connecting/Registering Reciver Function:
+-- these are two ways you can coonect to reciver to signals
+
+1.manual connect Route:
+   To recive a signals, register a reciver function using signal.connect() method, The reciver function is called when the signal is sent, all of the signals reciver
+   functions are called one at a time, in the order they were registered
+    --> signal.connect(reciver_fun, sender=None, weak=True, dispatch_uid=None)
+
+2.Decorator:
+    @reciver(signasl or list of singal, sender)
+
+    
+
+02.Types of singals
+-->01.Login and logout signals:
+    -- the auth framework uses the following signasl that can be used for notification when a user logs in or logsout
+
+    django.contrib.auth.signals
+    user_logged_in(sender, request, user, **kwargs) --sent when user logs succesfully
+    user_logged_out(sender, request, user, **kwargs) -- sent when the logout method is called
+    user_logib_failed(sender, credentials, request, **kwargs) sent when the user to faild to login succesfully
+
+-->02.Model signals:
+    -- a set of signals sent by model system
+
+    1.pre_save(sender, instance, raw, using, update_fields) -This is sent at the begining of a model save() meethod.
+        sender - the model class
+        instance - the instance being saved
+        using - the database alias being used
+        update_fields - the set of fields to update passed to Model.save() or None if update_fields wasnit passed to save()
+        
+    2.post_save(sender, instance, created, raw, using, update_fields) -Like pre_save , but sent at the end of the save() method.
+        sender - the model class
+        instance - the actual instance being saved
+        created - Aboolean: True if a new record was created
+        using - the database alias being used
+        update_fields - the set of fields to update as passed to Model.save() or None if update_fields wasnit passed to save()
+
+    3.pre_delete(sender, instance, using)-- sent at the begining of models delete() method and a queryset's delete() method
+
+    4.post_delete(sender, instance, using)-- Like a pre_delete, but sent at the end of a model's delete() method and a queryset's delete() method
+--> management signals
+--> Request/Response signals
+--> Test signals
+--> Database Wrappers
